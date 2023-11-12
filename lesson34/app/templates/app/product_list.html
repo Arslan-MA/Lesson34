@@ -1,0 +1,24 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+    {% for product in product_list %}
+        <p>{{ product }}</p>
+        <p>Like: {{ product.likes.count }}</p>
+        <p>Dislike: {{ product.dislike.count }}</p>
+        {% if user.is_authenticated %}
+            <form style="display: inline;" action="{% url 'like_product' product.slug %}">
+                <input type="submit" value="Like">
+            </form>
+            <form style="display: inline;" action="{% url 'dislike_product' product.slug %}">
+                <input type="submit" value="Dislike">
+            </form>
+        {% else %}
+            <p>To like or dislike, you must be logged in</p>
+        {% endif %}
+        <p><a href="{% url 'add_product' product.id %}">Добавить в корзину</a></p>
+        <p><a href="{% url 'product_detail' product.slug %}">Detail</a></p>
+
+        <br>
+    {% endfor %}
+{% endblock content %}
+
